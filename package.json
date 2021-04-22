@@ -9,12 +9,12 @@
   ],
   "scripts": {
     "test": "mocha",
-    "build": "npm-run-all clean build:dev",
+    "build": "npm-run-all clean build:prod",
     "build:dev": "rollup --config config/rollup.config.dev.js",
     "build:prod": "rollup --config config/rollup.config.prod.js",
     "dist": "npm-run-all build:prod",
     "server": "echo \"Not implemented yet\"",
-    "clean": "rm -rf build/*",
+    "clean": "rm -rf dist/*",
     "lint": "eslint ."
   },
   "keywords": [
