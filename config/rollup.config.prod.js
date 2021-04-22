@@ -1,14 +1,16 @@
+import { terser } from 'rollup-plugin-terser';
 import resolve from '@rollup/plugin-node-resolve';
 
 export default {
   input: './src/index.js',
   output: {
-    file: './build/stuffs.dev.js',
+    file: './dist/stuffs.min.js',
     format: 'iife',
     name: 'stuffs',
-    sourcemap: 'inline',
+    sourcemap: true,
   },
   plugins: [
-    resolve()
+    terser(),
+    resolve(),
   ]
 };
