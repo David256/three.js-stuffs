@@ -1,3 +1,5 @@
+import resolve from '@rollup/plugin-node-resolve';
+
 export default {
   input: './src/index.js',
   output: {
@@ -5,5 +7,8 @@ export default {
     format: 'iife',
     name: 'stuffs',
     sourcemap: 'inline',
-  }
+  },
+  plugins: [
+    resolve()
+  ]
 };
