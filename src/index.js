@@ -34,8 +34,9 @@ function init() {
   worldScene.background = new THREE.Color(0x606060);
   worldScene.fog = new THREE.Fog(0xa0a0a0, 10, 22);
 
-  ambientLight = new THREE.AmbientLight(0x404040);
-  // scene.add(ambientLight);
+  ambientLight = new THREE.AmbientLight(0xffffff);
+  ambientLight.position.z = 10;
+  worldScene.add(ambientLight);
 
   // Add objects
   const objects = createObjects();
@@ -67,6 +68,7 @@ function createGround() {
     new THREE.MeshPhongMaterial({ color: 0xa000af, shininess: 158 }),
   );
   ground.rotation.x = - Math.PI / 2;
+  ground.receiveShadow = true;
   return ground;
 }
 
