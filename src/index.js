@@ -18,6 +18,7 @@ let controls;
 let renderer;
 
 const controlsHandler = new ControlsHandler();
+controlsHandler.enable = false;
 
 init();
 animate();
@@ -92,8 +93,22 @@ function animate() {
  * Update render according of controls delta.
  */
 function render() {
+
   if (controlsHandler.enable) {
     controls.update(clock.getDelta());
-    renderer.render(worldScene, camera);
   }
+
+  renderer.render(worldScene, camera);
+
 }
+
+window.addEventListener('resize', () => {
+  
+  if (!camera || !renderer) return;
+
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+});
