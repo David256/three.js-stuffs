@@ -24,6 +24,7 @@ init();
 animate();
 
 function init() {
+
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 5;
   camera.position.x = 2;
@@ -56,6 +57,7 @@ function init() {
   controls = new FirstPersonControls(camera, renderer.domElement);
   controls.movementSpeed = 5;
   controls.lookSpeed = 0.2;
+
 }
 
 /**
@@ -63,14 +65,18 @@ function init() {
  * @returns { THREE.Mesh }
  */
 function createGround() {
+
   // 0xa0adaf
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(9, 9, 1, 1),
     new THREE.MeshPhongMaterial({ color: 0xa000af, shininess: 158 }),
   );
+
   ground.rotation.x = - Math.PI / 2;
   ground.receiveShadow = true;
+
   return ground;
+
 }
 
 /**
@@ -78,15 +84,20 @@ function createGround() {
  * @returns { [THREE.Mesh] }
  */
 function createObjects() {
+
   const geometry = new THREE.BoxGeometry(1,2,2);
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   const cube = new THREE.Mesh(geometry, material);
+
   return [cube];
+
 }
 
 function animate() {
+
   requestAnimationFrame(animate);
   render();
+
 }
 
 /**
