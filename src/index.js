@@ -8,6 +8,10 @@ let clock;
 let worldScene;
 /** @type { THREE.AmbientLight } */
 let ambientLight;
+/** @type { THREE.HemisphereLight } */
+let hemisphereLight;
+/** @type { THREE.DirectionalLight } */
+let directionalLight;
 /** @type { THREE.PerspectiveCamera } */
 let camera;
 /** @type { THREE.Mesh } */
@@ -36,9 +40,31 @@ function init() {
   worldScene.background = new THREE.Color(0x606060);
   worldScene.fog = new THREE.Fog(0xa0a0a0, 10, 22);
 
-  ambientLight = new THREE.AmbientLight(0xffffff);
+  ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   ambientLight.position.z = 10;
   worldScene.add(ambientLight);
+
+  hemisphereLight = new THREE.HemisphereLight(0xff0000, 0xf0f000, 0.6);
+  // hemisphereLight.position.y = 3;
+  hemisphereLight.color.setHSL( 0.6, 1, 0.6 );
+  hemisphereLight.groundColor.setHSL( 0.095, 1, 0.75 );
+  hemisphereLight.position.set( 0, 50, 0 );
+  worldScene.add(hemisphereLight);
+
+  const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 10);
+  worldScene.add( hemisphereLightHelper );
+
+  directionalLight = new THREE.DirectionalLight( 0xff0000, 1 );
+  directionalLight.color.setHSL( 0.1, 1, 0.95 );
+  directionalLight.position.set( - 1, 1.75, 1 );
+  directionalLight.position.multiplyScalar( 10 );
+
+  directionalLight.castShadow = true;
+  
+  worldScene.add( directionalLight );
+
+  const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 2);
+  worldScene.add( directionalLightHelper );
 
   // Add objects
   const objects = createObjects();
@@ -52,6 +78,7 @@ function init() {
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+  renderer.shadowMap.enabled = true;
 
   // Add controls
   controls = new FirstPersonControls(camera, renderer.domElement);
@@ -68,7 +95,7 @@ function createGround() {
 
   // 0xa0adaf
   const ground = new THREE.Mesh(
-    new THREE.PlaneGeometry(9, 9, 1, 1),
+    new THREE.PlaneGeometry(90, 90, 1, 1),
     new THREE.MeshPhongMaterial({ color: 0xa000af, shininess: 158 }),
   );
 
@@ -88,6 +115,9 @@ function createObjects() {
   const geometry = new THREE.BoxGeometry(1,2,2);
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
   const cube = new THREE.Mesh(geometry, material);
+  cube.castShadow = true;
+  cube.receiveShadow = true;
+  cube.position.y = 1.5;
 
   return [cube];
 
